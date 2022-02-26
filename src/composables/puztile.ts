@@ -13,7 +13,7 @@ export function initPuztile(size: number) {
         label: labels[y * size + x],
         correctX: x,
         correctY: y,
-        isCorrect: isTileCorrect(labels, y * size + x),
+        isCorrect: isTileCorrect(labels[y * size + x], y * size + x),
       }))
     )
   )
@@ -46,6 +46,6 @@ export function initPuztile(size: number) {
   }
 }
 
-function isTileCorrect(labels: string[], index: number) {
-  return labels[index] === '' || labels[index] === String(index + 1)
+function isTileCorrect(label: string, index: number) {
+  return label === '' || label === String(index + 1)
 }
