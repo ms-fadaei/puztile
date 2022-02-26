@@ -17,8 +17,8 @@ export function initPuztile(size: number) {
   // create tiles with shuffled labels
   puztile.value = puztile.value.map((_, index) => ({
     label: labels[index],
-    correctY: getY(+labels[index] - 1),
-    correctX: getX(+labels[index] - 1),
+    correctY: getY(+labels[index] - 1, size),
+    correctX: getX(+labels[index] - 1, size),
     isCorrect: isTileCorrect(labels[index], index),
   }))
 
@@ -28,8 +28,8 @@ export function initPuztile(size: number) {
   })
 
   function moveTitle(index: number) {
-    const x = getX(index)
-    const y = getY(index)
+    const x = getX(index, size)
+    const y = getY(index, size)
 
     // blank tiles candidates
     const candidates = [
@@ -60,18 +60,18 @@ export function initPuztile(size: number) {
       tile.isCorrect = blankTilePos.y === tile.correctY && blankTilePos.x === tile.correctX
 
       // update blank tile position
-      blankTilePos.y = getY(index)
-      blankTilePos.x = getX(index)
+      blankTilePos.y = y
+      blankTilePos.x = x
     }
   }
 
   function moveWithArrows(e: KeyboardEvent) {
     switch (e.key) {
       case 'ArrowUp':
-        if (blankTilePos.y - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - 4)
+        if (blankTilePos.y - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - size)
         break
       case 'ArrowDown':
-        if (blankTilePos.y + 1 < size) moveTitle(blankTilePos.y * size + blankTilePos.x + 4)
+        if (blankTilePos.y + 1 < size) moveTitle(blankTilePos.y * size + blankTilePos.x + size)
         break
       case 'ArrowLeft':
         if (blankTilePos.x - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - 1)
@@ -95,10 +95,10 @@ function isTileCorrect(label: string, index: number) {
   return label === '' || label === String(index + 1)
 }
 
-function getY(index: number) {
-  return Math.floor(index / 4)
+function getY(index: number, size: number) {
+  return Math.floor(index / size)
 }
 
-function getX(index: number) {
-  return index % 4
+function getX(index: number, size: number) {
+  return index % size
 }
