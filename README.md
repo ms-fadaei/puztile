@@ -1,5 +1,5 @@
-# Simpledsheet
-> A simple implementation of the standard spreadsheet. [Try it now!](https://ms-fadaei.github.io/simpledsheet/)
+# Puztile
+> A simple tile puzzle game. [Try it now!](https://ms-fadaei.github.io/puztile/)
 
 ## What did I use?
 - [Vue 3](https://v3.vuejs.org/)
