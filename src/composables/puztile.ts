@@ -1,7 +1,7 @@
 import { Tile } from '~/types'
 
 export function initPuztile(size: number) {
-  const puztile = ref<Tile[][]>(new Array(size).fill('').map(() => new Array(size).fill('')))
+  const puztile = ref<Tile[]>(new Array(size * size).fill(''))
   const movementCount = ref(0)
 
   // create shuffled labels from 1 to size * size - 1
@@ -14,28 +14,33 @@ export function initPuztile(size: number) {
   labels.push('')
 
   // create tiles with shuffled labels
-  puztile.value = puztile.value.map((row, y) =>
-    row.map((_, x) => ({
-      label: labels[y * size + x],
-      correctX: x,
-      correctY: y,
-      isCorrect: isTileCorrect(labels[y * size + x], y * size + x),
-    }))
-  )
+  puztile.value = puztile.value.map((_, index) => ({
+    label: labels[index],
+    correctY: getY(+labels[index] - 1),
+    correctX: getX(+labels[index] - 1),
+    isCorrect: isTileCorrect(labels[index], index),
+  }))
 
   // isWon: is puzzle solved?
   const isWon = computed(() => {
-    return puztile.value.every((row) => row.every((tile) => tile.isCorrect))
+    return puztile.value.every((tile) => tile.isCorrect)
   })
 
-  function moveTitle(x: number, y: number) {
+  function moveTitle(index: number) {
+    const x = getX(index)
+    const y = getY(index)
+
     // blank tiles candidates
-    const candidates = [
-      { x: x - 1, y: y, label: puztile.value[y][x - 1]?.label },
-      { x: x + 1, y: y, label: puztile.value[y][x + 1]?.label },
-      { x: x, y: y - 1, label: puztile.value[y - 1]?.[x].label },
-      { x: x, y: y + 1, label: puztile.value[y + 1]?.[x].label },
-    ]
+    const candidates = []
+
+    if (x - 1 >= 0)
+      candidates.push({ i: y * size + x - 1, label: puztile.value[y * size + x - 1].label })
+    if (x + 1 < size)
+      candidates.push({ i: y * size + x + 1, label: puztile.value[y * size + x + 1].label })
+    if (y - 1 >= 0)
+      candidates.push({ i: (y - 1) * size + x, label: puztile.value[(y - 1) * size + x].label })
+    if (y + 1 < size)
+      candidates.push({ i: (y + 1) * size + x, label: puztile.value[(y + 1) * size + x].label })
 
     // find the blank tile in candidates
     const blankTile = candidates.find((candidate) => candidate.label === '')
@@ -48,12 +53,12 @@ export function initPuztile(size: number) {
       movementCount.value++
 
       // swap tiles
-      const tile = puztile.value[y][x]
-      puztile.value[y][x] = puztile.value[blankTile.y][blankTile.x]
-      puztile.value[blankTile.y][blankTile.x] = tile
+      const tile = puztile.value[index]
+      puztile.value[index] = puztile.value[blankTile.i]
+      puztile.value[blankTile.i] = tile
 
       // revalidate isCorrect property
-      tile.isCorrect = tile.correctX === blankTile.x && tile.correctY === blankTile.y
+      tile.isCorrect = blankTile.i === tile.correctY * size + tile.correctX
     }
   }
 
@@ -67,4 +72,12 @@ export function initPuztile(size: number) {
 
 function isTileCorrect(label: string, index: number) {
   return label === '' || label === String(index + 1)
+}
+
+function getY(index: number) {
+  return Math.floor(index / 4)
+}
+
+function getX(index: number) {
+  return index % 4
 }

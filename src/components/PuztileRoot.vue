@@ -1,18 +1,16 @@
 <template>
-  <div class="overflow-x-auto max-w-full flex flex-col gap-1" v-bind="$attrs">
-    <div v-for="(puzzleRow, y) in puztile" :key="y" class="flex gap-1">
-      <div v-for="(puzzleTile, x) in puzzleRow" :key="x">
-        <button
-          class="tile"
-          :disabled="isWon"
-          :class="{ '!invisible': !puzzleTile.label }"
-          @click="moveTitle(x, y)"
-        >
-          {{ puzzleTile.label }}
-        </button>
-      </div>
+  <TransitionGroup tag="div" name="list" class="wrapper grid-template" v-bind="$attrs">
+    <div v-for="(tile, index) in puztile" :key="tile.label">
+      <button
+        class="tile"
+        :disabled="isWon"
+        :class="{ '!invisible': !tile.label }"
+        @click="moveTitle(index)"
+      >
+        {{ tile.label }}
+      </button>
     </div>
-  </div>
+  </TransitionGroup>
   <div class="mt-5">
     <div>
       <span>Game Status: </span>
@@ -33,9 +31,20 @@ interface Props {
   size: number
 }
 
-const props = defineProps<Props>()
-const { isWon, puztile, moveTitle, movementCount } = initPuztile(props.size)
+const $props = defineProps<Props>()
+const { isWon, puztile, moveTitle, movementCount } = initPuztile($props.size)
 
 console.log(puztile)
 watch(puztile, () => console.log(puztile), { deep: true })
 </script>
+
+<style scoped>
+.grid-template {
+  grid-template-rows: repeat(v-bind(size), minmax(0, 1fr));
+  grid-template-columns: repeat(v-bind(size), minmax(0, 1fr));
+}
+
+.list-move {
+  transition: all 0.25s ease;
+}
+</style>

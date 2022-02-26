@@ -36,6 +36,7 @@ export default {
           'icon-btn',
           'text-[0.9em] inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600',
         ],
+        ['wrapper', 'overflow-x-auto max-w-full grid gap-1'],
         [
           'tile',
           'w-10 h-10 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-700 dark:text-blue-gray-50 block',
