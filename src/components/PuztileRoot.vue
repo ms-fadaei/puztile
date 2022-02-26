@@ -13,8 +13,16 @@
       </div>
     </div>
   </div>
-  <div v-if="isWon" class="mt-3 text-emerald-600">
-    <strong>You Won!</strong>
+  <div class="mt-5">
+    <div>
+      <span>Game Status: </span>
+      <strong v-if="isWon" class="text-emerald-600">You Won!</strong>
+      <strong v-else class="text-pink-500">Playing</strong>
+    </div>
+    <div class="mt-1">
+      <span>Movements: </span>
+      <strong class="text-indigo-500">{{ movementCount }}</strong>
+    </div>
   </div>
 </template>
 
@@ -26,7 +34,7 @@ interface Props {
 }
 
 const props = defineProps<Props>()
-const { isWon, puztile, moveTitle } = initPuztile(props.size)
+const { isWon, puztile, moveTitle, movementCount } = initPuztile(props.size)
 
 console.log(puztile)
 watch(puztile, () => console.log(puztile), { deep: true })

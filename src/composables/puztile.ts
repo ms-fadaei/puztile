@@ -1,6 +1,9 @@
 import { Tile } from '~/types'
 
 export function initPuztile(size: number) {
+  const puztile = ref<Tile[][]>(new Array(size).fill('').map(() => new Array(size).fill('')))
+  const movementCount = ref(0)
+
   // create shuffled labels from 1 to size * size - 1
   // and add empty label at the end
   // so the array is size * size in length
@@ -11,15 +14,13 @@ export function initPuztile(size: number) {
   labels.push('')
 
   // create tiles with shuffled labels
-  const puztile = ref<Array<Array<Tile>>>(
-    new Array(size).fill('').map((_, y) =>
-      new Array(size).fill('').map((_, x) => ({
-        label: labels[y * size + x],
-        correctX: x,
-        correctY: y,
-        isCorrect: isTileCorrect(labels[y * size + x], y * size + x),
-      }))
-    )
+  puztile.value = puztile.value.map((row, y) =>
+    row.map((_, x) => ({
+      label: labels[y * size + x],
+      correctX: x,
+      correctY: y,
+      isCorrect: isTileCorrect(labels[y * size + x], y * size + x),
+    }))
   )
 
   // isWon: is puzzle solved?
@@ -43,6 +44,9 @@ export function initPuztile(size: number) {
     // swap the blank tile with the tile to be moved
     // and update the `isCorrect` (tile status) property of the moved tile
     if (blankTile) {
+      // add movement count
+      movementCount.value++
+
       const tile = puztile.value[y][x]
       puztile.value[y][x] = puztile.value[blankTile.y][blankTile.x]
       puztile.value[blankTile.y][blankTile.x] = tile
@@ -54,6 +58,7 @@ export function initPuztile(size: number) {
     puztile,
     isWon,
     moveTitle,
+    movementCount,
   }
 }
 
