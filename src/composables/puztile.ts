@@ -47,9 +47,12 @@ export function initPuztile(size: number) {
       // add movement count
       movementCount.value++
 
+      // swap tiles
       const tile = puztile.value[y][x]
       puztile.value[y][x] = puztile.value[blankTile.y][blankTile.x]
       puztile.value[blankTile.y][blankTile.x] = tile
+
+      // revalidate isCorrect property
       tile.isCorrect = tile.correctX === blankTile.x && tile.correctY === blankTile.y
     }
   }
