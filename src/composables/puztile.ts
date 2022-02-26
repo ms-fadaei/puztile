@@ -3,6 +3,7 @@ import { Tile } from '~/types'
 export function initPuztile(size: number) {
   const puztile = ref<Tile[]>(new Array(size * size).fill(''))
   const movementCount = ref(0)
+  const blankTilePos = { x: size - 1, y: size - 1 }
 
   // create shuffled labels from 1 to size * size - 1
   // and add empty label at the end
@@ -31,34 +32,53 @@ export function initPuztile(size: number) {
     const y = getY(index)
 
     // blank tiles candidates
-    const candidates = []
-
-    if (x - 1 >= 0)
-      candidates.push({ i: y * size + x - 1, label: puztile.value[y * size + x - 1].label })
-    if (x + 1 < size)
-      candidates.push({ i: y * size + x + 1, label: puztile.value[y * size + x + 1].label })
-    if (y - 1 >= 0)
-      candidates.push({ i: (y - 1) * size + x, label: puztile.value[(y - 1) * size + x].label })
-    if (y + 1 < size)
-      candidates.push({ i: (y + 1) * size + x, label: puztile.value[(y + 1) * size + x].label })
+    const candidates = [
+      { x: x - 1, y: y },
+      { x: x + 1, y: y },
+      { x: x, y: y - 1 },
+      { x: x, y: y + 1 },
+    ]
 
     // find the blank tile in candidates
-    const blankTile = candidates.find((candidate) => candidate.label === '')
+    const blankTileFound = candidates.some((c) => c.x === blankTilePos.x && c.y === blankTilePos.y)
 
     // if blank tile is found
     // swap the blank tile with the tile to be moved
     // and update the `isCorrect` (tile status) property of the moved tile
-    if (blankTile) {
+    if (blankTileFound) {
       // add movement count
       movementCount.value++
 
+      const blankTileIndex = blankTilePos.y * size + blankTilePos.x
+
       // swap tiles
       const tile = puztile.value[index]
-      puztile.value[index] = puztile.value[blankTile.i]
-      puztile.value[blankTile.i] = tile
+      puztile.value[index] = puztile.value[blankTileIndex]
+      puztile.value[blankTileIndex] = tile
 
       // revalidate isCorrect property
-      tile.isCorrect = blankTile.i === tile.correctY * size + tile.correctX
+      tile.isCorrect = blankTilePos.y === tile.correctY && blankTilePos.x === tile.correctX
+
+      // update blank tile position
+      blankTilePos.y = getY(index)
+      blankTilePos.x = getX(index)
+    }
+  }
+
+  function moveWithArrows(e: KeyboardEvent) {
+    switch (e.key) {
+      case 'ArrowUp':
+        if (blankTilePos.y - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - 4)
+        break
+      case 'ArrowDown':
+        if (blankTilePos.y + 1 < size) moveTitle(blankTilePos.y * size + blankTilePos.x + 4)
+        break
+      case 'ArrowLeft':
+        if (blankTilePos.x - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - 1)
+        break
+      case 'ArrowRight':
+        if (blankTilePos.x + 1 < size) moveTitle(blankTilePos.y * size + blankTilePos.x + 1)
+        break
     }
   }
 
@@ -67,6 +87,7 @@ export function initPuztile(size: number) {
     isWon,
     moveTitle,
     movementCount,
+    moveWithArrows,
   }
 }
 

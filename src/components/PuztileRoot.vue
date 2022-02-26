@@ -32,7 +32,15 @@ interface Props {
 }
 
 const $props = defineProps<Props>()
-const { isWon, puztile, moveTitle, movementCount } = initPuztile($props.size)
+const { isWon, puztile, moveTitle, movementCount, moveWithArrows } = initPuztile($props.size)
+
+onMounted(() => {
+  document.addEventListener('keydown', moveWithArrows)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', moveWithArrows)
+})
 </script>
 
 <style scoped>
