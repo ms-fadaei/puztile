@@ -1,37 +1,47 @@
 import { Tile } from '~/types'
 
 export function initPuztile(size: number) {
-  // eslint-disable-next-line prettier/prettier
-  const puztile = ref<Array<Array<Tile>>>(new Array(size).fill(null).map(() => new Array(size).fill(null)))
-  const numbers = new Array(size * size - 1).fill(null).map((_, i) => i + 1)
+  const labels = new Array(size * size - 1)
+    .fill(null)
+    .map((_, i) => String(i + 1))
+    .sort(() => Math.random() - 0.5)
+  labels.push('')
 
-  puztile.value.forEach((row, y) => {
-    row.forEach((_, x) => {
-      if (y === size - 1 && x === size - 1) return
-
-      const label = numbers.splice(Math.floor(Math.random() * numbers.length), 1)[0]
-      row[x] = {
-        label: String(label),
-        correctX: Math.floor((label - 1) % size),
-        correctY: Math.floor((label - 1) / size),
-        isCorrect: false,
-      }
-    })
-  })
-
-  puztile.value[size - 1][size - 1] = {
-    label: '',
-    correctX: size - 1,
-    correctY: size - 1,
-    isCorrect: true,
-  }
+  const puztile = ref<Array<Array<Tile>>>(
+    new Array(size).fill('').map((_, y) =>
+      new Array(size).fill('').map((_, x) => ({
+        label: labels[y * size + x],
+        correctX: x,
+        correctY: y,
+        isCorrect: labels[y * size + x] === '',
+      }))
+    )
+  )
 
   const isWon = computed(() => {
-    return puztile.value.every((row) => row.every((tile) => tile?.isCorrect))
+    return puztile.value.every((row) => row.every((tile) => tile.isCorrect))
   })
+
+  function moveTitle(x: number, y: number) {
+    const candidates = [
+      { x: x - 1, y: y, label: puztile.value[y][x - 1]?.label },
+      { x: x + 1, y: y, label: puztile.value[y][x + 1]?.label },
+      { x: x, y: y - 1, label: puztile.value[y - 1]?.[x].label },
+      { x: x, y: y + 1, label: puztile.value[y + 1]?.[x].label },
+    ]
+    const blankTile = candidates.find((candidate) => candidate.label === '')
+
+    if (blankTile) {
+      const tile = puztile.value[y][x]
+      puztile.value[y][x] = puztile.value[blankTile.y][blankTile.x]
+      puztile.value[blankTile.y][blankTile.x] = tile
+      tile.isCorrect = tile.correctX === blankTile.x && tile.correctY === blankTile.y
+    }
+  }
 
   return {
     puztile,
     isWon,
+    moveTitle,
   }
 }
