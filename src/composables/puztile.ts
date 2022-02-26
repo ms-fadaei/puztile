@@ -1,12 +1,16 @@
 import { Tile } from '~/types'
 
 export function initPuztile(size: number) {
+  // create shuffled labels from 1 to size * size - 1
+  // and add empty label at the end
+  // so the array is size * size in length
   const labels = new Array(size * size - 1)
     .fill(null)
     .map((_, i) => String(i + 1))
     .sort(() => Math.random() - 0.5)
   labels.push('')
 
+  // create tiles with shuffled labels
   const puztile = ref<Array<Array<Tile>>>(
     new Array(size).fill('').map((_, y) =>
       new Array(size).fill('').map((_, x) => ({
@@ -18,19 +22,26 @@ export function initPuztile(size: number) {
     )
   )
 
+  // isWon: is puzzle solved?
   const isWon = computed(() => {
     return puztile.value.every((row) => row.every((tile) => tile.isCorrect))
   })
 
   function moveTitle(x: number, y: number) {
+    // blank tiles candidates
     const candidates = [
       { x: x - 1, y: y, label: puztile.value[y][x - 1]?.label },
       { x: x + 1, y: y, label: puztile.value[y][x + 1]?.label },
       { x: x, y: y - 1, label: puztile.value[y - 1]?.[x].label },
       { x: x, y: y + 1, label: puztile.value[y + 1]?.[x].label },
     ]
+
+    // find the blank tile in candidates
     const blankTile = candidates.find((candidate) => candidate.label === '')
 
+    // if blank tile is found
+    // swap the blank tile with the tile to be moved
+    // and update the `isCorrect` (tile status) property of the moved tile
     if (blankTile) {
       const tile = puztile.value[y][x]
       puztile.value[y][x] = puztile.value[blankTile.y][blankTile.x]
