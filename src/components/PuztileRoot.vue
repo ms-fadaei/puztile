@@ -33,9 +33,6 @@ interface Props {
 
 const $props = defineProps<Props>()
 const { isWon, puztile, moveTitle, movementCount } = initPuztile($props.size)
-
-console.log(puztile)
-watch(puztile, () => console.log(puztile), { deep: true })
 </script>
 
 <style scoped>
