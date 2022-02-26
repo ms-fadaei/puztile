@@ -37,8 +37,8 @@ export default {
           'text-[0.9em] inline-block cursor-pointer select-none opacity-75 transition duration-200 ease-in-out hover:opacity-100 hover:text-teal-600',
         ],
         [
-          'cell-input',
-          'flex items-center p-1 w-24 h-10 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 border-0 rounded-none',
+          'tile',
+          'w-10 h-10 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-700 dark:text-blue-gray-50 block',
         ],
       ],
       presets: [
