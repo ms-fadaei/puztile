@@ -3,7 +3,7 @@
     tag="div"
     name="list"
     class="wrapper"
-    :style="{ 'grid-template-columns': `repeat(${size}, minmax(0, 1fr))` }"
+    :style="{ 'grid-template-columns': `repeat(${size}, 1fr)` }"
     v-bind="$attrs"
   >
     <div v-for="(tile, index) in puztile" :key="tile.label">
