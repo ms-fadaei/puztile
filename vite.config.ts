@@ -41,6 +41,10 @@ export default {
           'tile',
           'w-10 h-10 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-700 dark:text-blue-gray-50 block select-none',
         ],
+        [
+          'restart-button',
+          'py-2 px-3 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50',
+        ],
       ],
       presets: [
         presetUno(),

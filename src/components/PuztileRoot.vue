@@ -1,16 +1,25 @@
 <template>
-  <TransitionGroup tag="div" name="list" class="wrapper grid-template" v-bind="$attrs">
+  <TransitionGroup
+    tag="div"
+    name="list"
+    class="wrapper"
+    :style="{ 'grid-template-columns': `repeat(${size}, minmax(0, 1fr))` }"
+    v-bind="$attrs"
+  >
     <div v-for="(tile, index) in puztile" :key="tile.label">
       <button
         class="tile"
         :disabled="isWon"
         :class="{ '!invisible': !tile.label }"
-        @click="moveTitle(index)"
+        @click="move(index)"
       >
         {{ tile.label }}
       </button>
     </div>
   </TransitionGroup>
+  <div class="mt-5">
+    <button class="restart-button" @click="restart">Restart Game</button>
+  </div>
   <div class="mt-5">
     <div>
       <span>Game Status: </span>
@@ -32,7 +41,7 @@ interface Props {
 }
 
 const $props = defineProps<Props>()
-const { isWon, puztile, moveTitle, movementCount, moveWithArrows } = initPuztile($props.size)
+const { isWon, puztile, movementCount, moveWithArrows, move, restart } = initPuztile($props.size)
 
 onMounted(() => {
   document.addEventListener('keydown', moveWithArrows)
@@ -44,11 +53,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.grid-template {
-  grid-template-rows: repeat(v-bind(size), minmax(0, 1fr));
-  grid-template-columns: repeat(v-bind(size), minmax(0, 1fr));
-}
-
 .list-move {
   transition: all 0.25s ease;
 }

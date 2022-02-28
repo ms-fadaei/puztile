@@ -5,29 +5,39 @@ export function initPuztile(size: number) {
   const movementCount = ref(0)
   const blankTilePos = { x: size - 1, y: size - 1 }
 
-  // create shuffled labels from 1 to size * size - 1
-  // and add empty label at the end
-  // so the array is size * size in length
-  const labels = new Array(size * size - 1)
-    .fill(null)
-    .map((_, i) => String(i + 1))
-    .sort(() => Math.random() - 0.5)
-  labels.push('')
+  // init game stats/variables
+  // use for restarting game also
+  function init() {
+    movementCount.value = 0
+    blankTilePos.x = blankTilePos.y = size - 1
 
-  // create tiles with shuffled labels
-  puztile.value = puztile.value.map((_, index) => ({
-    label: labels[index],
-    correctY: getY(+labels[index] - 1, size),
-    correctX: getX(+labels[index] - 1, size),
-    isCorrect: isTileCorrect(labels[index], index),
-  }))
+    // create shuffled labels from 1 to size * size - 1
+    // and add empty label at the end
+    // so the array is size * size in length
+    const labels = new Array(size * size - 1)
+      .fill(null)
+      .map((_, i) => String(i + 1))
+      .sort(() => Math.random() - 0.5)
+    labels.push('')
+
+    // create tiles with shuffled labels
+    puztile.value = puztile.value.map((_, index) => ({
+      label: labels[index],
+      correctY: getY(+labels[index] - 1, size),
+      correctX: getX(+labels[index] - 1, size),
+      isCorrect: isTileCorrect(labels[index], index),
+    }))
+  }
+
+  // init game status
+  init()
 
   // isWon: is puzzle solved?
   const isWon = computed(() => {
     return puztile.value.every((tile) => tile.isCorrect)
   })
 
-  function moveTitle(index: number) {
+  function move(index: number) {
     const x = getX(index, size)
     const y = getY(index, size)
 
@@ -68,16 +78,16 @@ export function initPuztile(size: number) {
   function moveWithArrows(e: KeyboardEvent) {
     switch (e.key) {
       case 'ArrowUp':
-        if (blankTilePos.y - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - size)
+        if (blankTilePos.y - 1 >= 0) move(blankTilePos.y * size + blankTilePos.x - size)
         break
       case 'ArrowDown':
-        if (blankTilePos.y + 1 < size) moveTitle(blankTilePos.y * size + blankTilePos.x + size)
+        if (blankTilePos.y + 1 < size) move(blankTilePos.y * size + blankTilePos.x + size)
         break
       case 'ArrowLeft':
-        if (blankTilePos.x - 1 >= 0) moveTitle(blankTilePos.y * size + blankTilePos.x - 1)
+        if (blankTilePos.x - 1 >= 0) move(blankTilePos.y * size + blankTilePos.x - 1)
         break
       case 'ArrowRight':
-        if (blankTilePos.x + 1 < size) moveTitle(blankTilePos.y * size + blankTilePos.x + 1)
+        if (blankTilePos.x + 1 < size) move(blankTilePos.y * size + blankTilePos.x + 1)
         break
     }
   }
@@ -85,9 +95,10 @@ export function initPuztile(size: number) {
   return {
     puztile,
     isWon,
-    moveTitle,
+    move,
     movementCount,
     moveWithArrows,
+    restart: init,
   }
 }
 
