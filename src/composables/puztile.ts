@@ -72,6 +72,20 @@ export function initPuztile(size: number) {
       // update blank tile position
       blankTilePos.y = y
       blankTilePos.x = x
+    } else if (x === blankTilePos.x || y === blankTilePos.y) {
+      // move aligned tiles together
+      let neighborIndex: number
+      if (x === blankTilePos.x) {
+        const neighborDirection = Math.sign(blankTilePos.y - y)
+        neighborIndex = (y + neighborDirection) * size + x
+      } else {
+        const neighborDirection = Math.sign(blankTilePos.x - x)
+        neighborIndex = y * size + x + neighborDirection
+      }
+
+      // recursive call
+      move(neighborIndex) // propagate the movement to to neighbor tile
+      move(index) // move current tile now
     }
   }
 
