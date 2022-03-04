@@ -59,7 +59,7 @@ export function initPuztile(size: number) {
       // add movement count
       movementCount.value++
 
-      const blankTileIndex = blankTilePos.y * size + blankTilePos.x
+      const blankTileIndex = getIndex(blankTilePos.x, blankTilePos.y, size)
 
       // swap tiles
       const tile = puztile.value[index]
@@ -77,10 +77,10 @@ export function initPuztile(size: number) {
       let neighborIndex: number
       if (x === blankTilePos.x) {
         const neighborDirection = Math.sign(blankTilePos.y - y)
-        neighborIndex = (y + neighborDirection) * size + x
+        neighborIndex = getIndex(x, y + neighborDirection, size)
       } else {
         const neighborDirection = Math.sign(blankTilePos.x - x)
-        neighborIndex = y * size + x + neighborDirection
+        neighborIndex = getIndex(x + neighborDirection, y, size)
       }
 
       // recursive call
@@ -92,16 +92,16 @@ export function initPuztile(size: number) {
   function moveWithArrows(e: KeyboardEvent) {
     switch (e.key) {
       case 'ArrowUp':
-        if (blankTilePos.y - 1 >= 0) move(blankTilePos.y * size + blankTilePos.x - size)
+        if (blankTilePos.y - 1 >= 0) move(getIndex(blankTilePos.x, blankTilePos.y - 1, size))
         break
       case 'ArrowDown':
-        if (blankTilePos.y + 1 < size) move(blankTilePos.y * size + blankTilePos.x + size)
+        if (blankTilePos.y + 1 < size) move(getIndex(blankTilePos.x, blankTilePos.y + 1, size))
         break
       case 'ArrowLeft':
-        if (blankTilePos.x - 1 >= 0) move(blankTilePos.y * size + blankTilePos.x - 1)
+        if (blankTilePos.x - 1 >= 0) move(getIndex(blankTilePos.x - 1, blankTilePos.y, size))
         break
       case 'ArrowRight':
-        if (blankTilePos.x + 1 < size) move(blankTilePos.y * size + blankTilePos.x + 1)
+        if (blankTilePos.x + 1 < size) move(getIndex(blankTilePos.x + 1, blankTilePos.y, size))
         break
     }
   }
@@ -126,4 +126,8 @@ function getY(index: number, size: number) {
 
 function getX(index: number, size: number) {
   return index % size
+}
+
+function getIndex(x: number, y: number, size: number) {
+  return y * size + x
 }
