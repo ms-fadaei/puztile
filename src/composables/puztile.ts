@@ -42,12 +42,14 @@ export function initPuztile(size: number) {
     const y = getY(index, size)
 
     // blank tiles candidates
-    const candidates = [
-      { x: x - 1, y: y },
-      { x: x + 1, y: y },
-      { x: x, y: y - 1 },
-      { x: x, y: y + 1 },
-    ]
+    const candidates = []
+
+    for (let i = 0; i < size; i++) {
+      candidates.push({ x: x + i, y: y })
+      candidates.push({ x: x - i, y: y })
+      candidates.push({ x: x, y: y + i })
+      candidates.push({ x: x, y: y - i })
+    }
 
     // find the blank tile in candidates
     const blankTileFound = candidates.some((c) => c.x === blankTilePos.x && c.y === blankTilePos.y)
@@ -56,15 +58,44 @@ export function initPuztile(size: number) {
     // swap the blank tile with the tile to be moved
     // and update the `isCorrect` (tile status) property of the moved tile
     if (blankTileFound) {
+      // Calculate the distance between blank tile and selected tile
+      const distance = Math.sqrt((x - blankTilePos.x) ** 2 + (y - blankTilePos.y) ** 2);
       // add movement count
-      movementCount.value++
+      movementCount.value = movementCount.value + distance
 
       const blankTileIndex = blankTilePos.y * size + blankTilePos.x
 
       // swap tiles
       const tile = puztile.value[index]
-      puztile.value[index] = puztile.value[blankTileIndex]
-      puztile.value[blankTileIndex] = tile
+      const blankTile = puztile.value[blankTileIndex]
+      ///// if selected tile is the left side the blankTile
+      if (x < blankTilePos.x) {
+        for (let i = distance; i > 0; i--) {
+          puztile.value[index + i] = puztile.value[index + i - 1]
+        }
+      }
+      ///// if selected tile is above the blankTile
+      else if (y < blankTilePos.y) {
+        for (let i = distance; i > 0; i--) {
+          puztile.value[index + size * i] = puztile.value[index + size * (i - 1)]
+        }
+      }
+      ///// if selected tile is the right side the blankTile
+      else if (x > blankTilePos.x) {
+        for (let i = distance; i > 0; i--) {
+          puztile.value[index - i] = puztile.value[index - i + 1]
+        }
+      }
+      else {
+        //if > blankTilePos.y
+        ///// if selected tile is under the blankTile
+        for (let i = distance; i > 0; i--) {
+          puztile.value[index - size * i] = puztile.value[index - size * (i - 1)]
+
+        }
+      }
+      puztile.value[index] = blankTile
+
 
       // revalidate isCorrect property
       tile.isCorrect = blankTilePos.y === tile.correctY && blankTilePos.x === tile.correctX
