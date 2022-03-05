@@ -45,6 +45,11 @@ export default {
           'restart-button',
           'py-2 px-3 rounded-md bg-blue-gray-300 text-blue-gray-800 dark:bg-blue-gray-600 dark:text-blue-gray-50',
         ],
+        [
+          'switch-button',
+          'block rounded-md text-sm py-1 px-3 transparent text-blue-gray-800 dark:text-blue-gray-50 cursor-pointer',
+        ],
+        ['switch-button--active', 'bg-orange-500 text-blue-gray-50'],
       ],
       presets: [
         presetUno(),

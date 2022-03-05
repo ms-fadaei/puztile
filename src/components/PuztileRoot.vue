@@ -1,4 +1,27 @@
 <template>
+  <div class="mb-3 p-2 rounded-md flex gap-1" un-bg="gray-100 dark:gray-800">
+    <button
+      class="switch-button"
+      :class="{ 'switch-button--active': size === 4 }"
+      @click="size = 4"
+    >
+      small
+    </button>
+    <button
+      class="switch-button"
+      :class="{ 'switch-button--active': size === 5 }"
+      @click="size = 5"
+    >
+      normal
+    </button>
+    <button
+      class="switch-button"
+      :class="{ 'switch-button--active': size === 6 }"
+      @click="size = 6"
+    >
+      large
+    </button>
+  </div>
   <TransitionGroup
     tag="div"
     name="list"
@@ -18,7 +41,7 @@
     </div>
   </TransitionGroup>
   <div class="mt-5">
-    <button class="restart-button" @click="restart">Restart Game</button>
+    <button class="restart-button" @click="() => restart()">Restart Game</button>
   </div>
   <div class="mt-5">
     <div>
@@ -41,7 +64,13 @@ interface Props {
 }
 
 const $props = defineProps<Props>()
-const { isWon, puztile, movementCount, moveWithArrows, move, restart } = initPuztile($props.size)
+const size = ref($props.size)
+const { isWon, puztile, movementCount, moveWithArrows, move, restart } = initPuztile(size.value)
+
+watch(size, (newSize) => {
+  console.log(`size changed to ${newSize}`)
+  restart(newSize)
+})
 
 onMounted(() => {
   document.addEventListener('keydown', moveWithArrows)

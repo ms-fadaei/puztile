@@ -1,13 +1,14 @@
 import { Tile } from '~/types'
 
 export function initPuztile(size: number) {
-  const puztile = ref<Tile[]>(new Array(size * size).fill(''))
+  const puztile = ref<Tile[]>([])
   const movementCount = ref(0)
   const blankTilePos = { x: size - 1, y: size - 1 }
 
   // init game stats/variables
   // use for restarting game also
-  function init() {
+  function init(newSize = size) {
+    size = newSize // update the size if new size is passed
     movementCount.value = 0
     blankTilePos.x = blankTilePos.y = size - 1
 
@@ -21,7 +22,7 @@ export function initPuztile(size: number) {
     labels.push('')
 
     // create tiles with shuffled labels
-    puztile.value = puztile.value.map((_, index) => ({
+    puztile.value = new Array(size * size).fill('').map((_, index) => ({
       label: labels[index],
       correctY: getY(+labels[index] - 1, size),
       correctX: getX(+labels[index] - 1, size),
