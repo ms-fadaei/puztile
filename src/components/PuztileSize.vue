@@ -2,21 +2,21 @@
   <div class="p-2 rounded-md flex gap-1" un-bg="gray-100 dark:gray-800">
     <button
       class="switch-button"
-      :class="{ 'switch-button--active': size === 4 }"
+      :class="{ 'switch-button__small--active': size === 4 }"
       @click="size = 4"
     >
       small
     </button>
     <button
       class="switch-button"
-      :class="{ 'switch-button--active': size === 5 }"
+      :class="{ 'switch-button__normal--active': size === 5 }"
       @click="size = 5"
     >
       normal
     </button>
     <button
       class="switch-button"
-      :class="{ 'switch-button--active': size === 6 }"
+      :class="{ 'switch-button__large--active': size === 6 }"
       @click="size = 6"
     >
       large
