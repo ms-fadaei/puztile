@@ -11,7 +11,7 @@
       <button
         class="tile"
         :disabled="isWon"
-        :class="{ '!invisible': !tile.label }"
+        :class="{ '!invisible': !tile.label, correct: tile.isCorrect }"
         @click="move(index)"
       >
         {{ tile.label }}
@@ -48,5 +48,20 @@ onBeforeUnmount(() => {
 <style scoped>
 .list-move {
   transition: all 0.15s cubic-bezier(0.75, -0.25, 0.25, 1.25);
+}
+
+.correct {
+  position: relative;
+}
+
+.correct::before {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 5px;
+  height: 5px;
+  background-color: #00d1b2;
+  border-radius: 50%;
 }
 </style>
