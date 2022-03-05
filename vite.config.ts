@@ -47,11 +47,8 @@ export default {
         ],
         [
           'switch-button',
-          'block rounded-md text-sm py-1 px-3 transparent text-blue-gray-800 dark:text-blue-gray-50 cursor-pointer',
+          'block rounded-md text-sm py-1 px-2 transparent text-blue-gray-800 dark:text-blue-gray-50 cursor-pointer',
         ],
-        ['switch-button__small--active', 'bg-green-600 text-blue-gray-50'],
-        ['switch-button__normal--active', 'bg-orange-500 text-blue-gray-50'],
-        ['switch-button__large--active', 'bg-red-500 text-blue-gray-50'],
       ],
       presets: [
         presetUno(),

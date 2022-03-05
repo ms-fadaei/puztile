@@ -1,25 +1,13 @@
 <template>
   <div class="p-2 rounded-md flex gap-1" un-bg="gray-100 dark:gray-800">
     <button
+      v-for="s in supportedSizes"
+      :key="s.value"
       class="switch-button"
-      :class="{ 'switch-button__small--active': size === 4 }"
-      @click="size = 4"
+      :class="{ 'text-blue-gray-50': size === s.value, [s.class]: size === s.value }"
+      @click="size = s.value"
     >
-      small
-    </button>
-    <button
-      class="switch-button"
-      :class="{ 'switch-button__normal--active': size === 5 }"
-      @click="size = 5"
-    >
-      normal
-    </button>
-    <button
-      class="switch-button"
-      :class="{ 'switch-button__large--active': size === 6 }"
-      @click="size = 6"
-    >
-      large
+      {{ s.label }}
     </button>
   </div>
 </template>
@@ -40,4 +28,22 @@ const size = computed({
     return $props.modelValue
   },
 })
+
+const supportedSizes = [
+  {
+    label: 'Small',
+    value: 4,
+    class: 'bg-green-600',
+  },
+  {
+    label: 'Medium',
+    value: 5,
+    class: 'bg-orange-500',
+  },
+  {
+    label: 'Large',
+    value: 6,
+    class: 'bg-red-500',
+  },
+]
 </script>
