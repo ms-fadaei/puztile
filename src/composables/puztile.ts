@@ -37,7 +37,7 @@ export function initPuztile(size: number) {
     return puztile.value.every((tile) => tile.isCorrect)
   })
 
-  function move(index: number) {
+  async function move(index: number) {
     const x = getX(index, size)
     const y = getY(index, size)
 
@@ -84,7 +84,8 @@ export function initPuztile(size: number) {
       }
 
       // recursive call
-      move(neighborIndex) // propagate the movement to to neighbor tile
+      await move(neighborIndex) // propagate the movement to to neighbor tile
+      await delay(125) // wait for animation
       move(index) // move current tile now
     }
   }
@@ -130,4 +131,8 @@ function getX(index: number, size: number) {
 
 function getIndex(x: number, y: number, size: number) {
   return y * size + x
+}
+
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }

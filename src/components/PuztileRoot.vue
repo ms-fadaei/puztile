@@ -54,6 +54,6 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .list-move {
-  transition: all 0.25s ease;
+  transition: all 0.15s cubic-bezier(0.75, -0.25, 0.25, 1.25);
 }
 </style>
