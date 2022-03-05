@@ -1,27 +1,5 @@
 <template>
-  <div class="mb-3 p-2 rounded-md flex gap-1" un-bg="gray-100 dark:gray-800">
-    <button
-      class="switch-button"
-      :class="{ 'switch-button--active': size === 4 }"
-      @click="size = 4"
-    >
-      small
-    </button>
-    <button
-      class="switch-button"
-      :class="{ 'switch-button--active': size === 5 }"
-      @click="size = 5"
-    >
-      normal
-    </button>
-    <button
-      class="switch-button"
-      :class="{ 'switch-button--active': size === 6 }"
-      @click="size = 6"
-    >
-      large
-    </button>
-  </div>
+  <PuztileSize v-model="size" class="mb-3" />
   <TransitionGroup
     tag="div"
     name="list"
@@ -40,20 +18,8 @@
       </button>
     </div>
   </TransitionGroup>
-  <div class="mt-5">
-    <button class="restart-button" @click="() => restart()">Restart Game</button>
-  </div>
-  <div class="mt-5">
-    <div>
-      <span>Game Status: </span>
-      <strong v-if="isWon" class="text-emerald-600">You Won!</strong>
-      <strong v-else class="text-pink-500">Playing</strong>
-    </div>
-    <div class="mt-1">
-      <span>Movements: </span>
-      <strong class="text-indigo-500">{{ movementCount }}</strong>
-    </div>
-  </div>
+  <PuztileRestart class="mt-5" @restart="restart" />
+  <PuztileInfo class="mt-5" :is-won="isWon" :movement-count="movementCount" />
 </template>
 
 <script setup lang="ts">
@@ -67,10 +33,8 @@ const $props = defineProps<Props>()
 const size = ref($props.size)
 const { isWon, puztile, movementCount, moveWithArrows, move, restart } = initPuztile(size.value)
 
-watch(size, (newSize) => {
-  console.log(`size changed to ${newSize}`)
-  restart(newSize)
-})
+// restart game with new size
+watch(size, restart)
 
 onMounted(() => {
   document.addEventListener('keydown', moveWithArrows)

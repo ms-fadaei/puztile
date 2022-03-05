@@ -7,8 +7,12 @@ export function initPuztile(size: number) {
 
   // init game stats/variables
   // use for restarting game also
-  function init(newSize = size) {
-    size = newSize // update the size if new size is passed
+  function init(newSize?: number) {
+    // update the size if new size is passed
+    if (typeof newSize !== 'undefined' && size !== newSize) {
+      size = newSize
+    }
+
     movementCount.value = 0
     blankTilePos.x = blankTilePos.y = size - 1
 
