@@ -1,5 +1,5 @@
 # Puztile
-> A simple tile puzzle game. [Try it now!](https://puztile.netlify.app/)
+> Enjoyable tile puzzle game. [Try it now!](https://puztile.netlify.app/)
 
 ## What did I use?
 - [Vue 3](https://v3.vuejs.org/)

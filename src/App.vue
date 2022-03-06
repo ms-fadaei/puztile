@@ -18,11 +18,11 @@ const step = ref(0)
 const size = ref(4)
 
 useHead({
-  title: 'Puztile: tile puzzle game.',
+  title: 'Puztile: tile puzzle game',
   meta: [
     {
       name: `description`,
-      content: `Tile puzzle game.`,
+      content: `Enjoyable tile puzzle game.`,
     },
   ],
 })
