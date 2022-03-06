@@ -18,4 +18,4 @@ jobs:
           NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
           NETLIFY_DEPLOY_TO_PROD: true
           build_command: "yarn generate"
-          build_directory: "./playground/dist"
+          build_directory: "dist"
