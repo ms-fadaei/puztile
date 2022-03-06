@@ -3,7 +3,7 @@
   <TransitionGroup
     tag="div"
     name="list"
-    class="wrapper grid-cols-4"
+    class="wrapper"
     :style="{ 'grid-template-columns': `repeat(${size}, 1fr)` }"
     v-bind="$attrs"
   >
