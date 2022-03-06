@@ -11,11 +11,11 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
-      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+      - uses: jsmrcaga/action-netlify-deploy@v1.7.2
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_SECRET_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_DEPLOY_MESSAGE: "Prod deploy v${{ github.ref }}"
           NETLIFY_DEPLOY_TO_PROD: true
-          build_command: "npm run generate"
-          build_directory: "playground/dist"
+          build_command: "yarn generate"
+          build_directory: "./playground/dist"
