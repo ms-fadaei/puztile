@@ -1,5 +1,5 @@
 <template>
-  <PuztileSize v-model="size" class="mb-3" />
+  <h1 class="text-2xl font-bold mb-3 text-cool-gray-600 dark:text-cool-gray-400">PUZTILE</h1>
   <TransitionGroup
     tag="div"
     name="list"
@@ -17,9 +17,13 @@
         {{ tile.label }}
       </button>
     </div>
+    <div v-if="isWon" class="won"><span>You Won</span></div>
   </TransitionGroup>
-  <PuztileRestart class="mt-5" @restart="restart" />
-  <PuztileInfo class="mt-5" :is-won="isWon" :movement-count="movementCount" />
+  <PuztileInfo class="mt-2" :is-won="isWon" :movement-count="movementCount" />
+  <div class="mt-5">
+    <button class="button py-1 px-5" @click="$emit('back')">Back</button>
+    <button class="button ml-2 py-1 px-5" :disabled="isWon" @click="restart()">Shuffle</button>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -30,11 +34,8 @@ interface Props {
 }
 
 const $props = defineProps<Props>()
-const size = ref($props.size)
-const { isWon, puztile, movementCount, moveWithArrows, move, restart } = initPuztile(size.value)
-
-// restart game with new size
-watch(size, restart)
+const $emit = defineEmits(['back'])
+const { isWon, puztile, movementCount, moveWithArrows, move, restart } = initPuztile($props.size)
 
 onMounted(() => {
   document.addEventListener('keydown', moveWithArrows)

@@ -1,5 +1,5 @@
 <template>
-  <div class="p-2 rounded-md flex gap-1" un-bg="gray-100 dark:gray-800">
+  <div class="normal-bg flex gap-1">
     <button
       v-for="s in supportedSizes"
       :key="s.value"

@@ -5,8 +5,8 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Footer: typeof import('./src/components/Footer.vue')['default']
+    IntroRoot: typeof import('./src/components/IntroRoot.vue')['default']
     PuztileInfo: typeof import('./src/components/PuztileInfo.vue')['default']
-    PuztileRestart: typeof import('./src/components/PuztileRestart.vue')['default']
     PuztileRoot: typeof import('./src/components/PuztileRoot.vue')['default']
     PuztileSize: typeof import('./src/components/PuztileSize.vue')['default']
   }
