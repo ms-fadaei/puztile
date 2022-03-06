@@ -15,11 +15,11 @@
 import { useHead } from '@vueuse/head'
 
 useHead({
-  title: 'Puztile',
+  title: 'Puztile: tile puzzle game.',
   meta: [
     {
       name: `description`,
-      content: `A simple tile puzzle game.`,
+      content: `Tile puzzle game.`,
     },
   ],
 })
