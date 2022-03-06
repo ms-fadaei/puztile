@@ -59,7 +59,6 @@ export default {
       ],
     }),
   ],
-  base: 'https://ms-fadaei.github.io/puztile/',
 
   // https://github.com/antfu/vite-ssg
   ssgOptions: {
