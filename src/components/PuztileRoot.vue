@@ -19,7 +19,7 @@
     </div>
     <div v-if="isWon" class="won"><span>You Won</span></div>
   </TransitionGroup>
-  <PuztileInfo class="mt-2" :is-won="isWon" :movement-count="movementCount" />
+  <PuztileInfo class="mt-2" :movement-count="movementCount" />
   <div class="mt-5">
     <button class="button py-1 px-5" @click="$emit('back')">restart</button>
     <button class="button ml-2 py-1 px-5" :disabled="isWon" @click="restart()">shuffle</button>
