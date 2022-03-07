@@ -5,10 +5,10 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Footer: typeof import('./src/components/Footer.vue')['default']
-    IntroRoot: typeof import('./src/components/IntroRoot.vue')['default']
+    Intro: typeof import('./src/components/Intro.vue')['default']
+    IntroSize: typeof import('./src/components/IntroSize.vue')['default']
+    Puztile: typeof import('./src/components/Puztile.vue')['default']
     PuztileInfo: typeof import('./src/components/PuztileInfo.vue')['default']
-    PuztileRoot: typeof import('./src/components/PuztileRoot.vue')['default']
-    PuztileSize: typeof import('./src/components/PuztileSize.vue')['default']
   }
 }
 

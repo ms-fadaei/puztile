@@ -48,7 +48,7 @@ export default {
         ],
         [
           'switch-button',
-          'block rounded-md text-sm py-1 px-2 transparent text-blue-gray-800 dark:text-blue-gray-50 cursor-pointer',
+          'block rounded-md text-sm py-1 px-2 text-blue-gray-800 dark:text-blue-gray-50 cursor-pointer',
         ],
         [
           'won',

@@ -8,7 +8,7 @@
     <span>L</span>
     <span>E</span>
   </h1>
-  <PuztileSize v-model="size" class="mt-4 mb-3" />
+  <IntroSize v-model="size" class="mt-4 mb-3" />
   <button class="button min-w-25" @click="$emit('start')">Start The Game</button>
 </template>
 

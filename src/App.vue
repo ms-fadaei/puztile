@@ -5,8 +5,8 @@
     un-bg="slate-50 dark:slate-900"
     un-text="gray-700 dark:gray-200"
   >
-    <IntroRoot v-if="step === 0" v-model="size" @start="step = 1" />
-    <PuztileRoot v-else class="normal-bg" :size="size" @back="step = 0" />
+    <Intro v-if="step === 0" v-model="size" @start="step = 1" />
+    <Puztile v-else class="normal-bg" :size="size" @back="step = 0" />
     <Footer />
   </main>
 </template>
