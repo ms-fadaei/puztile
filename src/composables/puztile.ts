@@ -2,7 +2,7 @@ import { Tile } from '~/types'
 
 export function initPuztile(size: number) {
   const puztile = ref<Tile[]>(new Array(size * size).fill(''))
-  const movementCount = ref(0)
+  const moves = ref(0)
   const blankTilePos = { x: size - 1, y: size - 1 }
 
   // init game stats/variables
@@ -56,7 +56,7 @@ export function initPuztile(size: number) {
     // and update the `isCorrect` (tile status) property of the moved tile
     if (blankTileFound) {
       // add movement count
-      movementCount.value++
+      moves.value++
 
       const blankTileIndex = getIndex(blankTilePos.x, blankTilePos.y, size)
 
@@ -110,7 +110,7 @@ export function initPuztile(size: number) {
     puztile,
     isWon,
     move,
-    movementCount,
+    moves,
     moveWithArrows,
     restart: init,
   }

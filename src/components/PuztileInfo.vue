@@ -1,13 +1,13 @@
 <template>
   <div class="text-sm">
-    <span>Movements: </span>
-    <strong class="text-indigo-500">{{ movementCount }}</strong>
+    <span>Moves: </span>
+    <strong class="text-indigo-500">{{ moves }}</strong>
   </div>
 </template>
 
 <script lang="ts" setup>
 interface Props {
-  movementCount: number
+  moves: number
 }
 
 defineProps<Props>()
